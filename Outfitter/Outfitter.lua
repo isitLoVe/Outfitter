@@ -3856,23 +3856,14 @@ end
 
 function Outfitter_SetSpecialOutfitEnabled(pSpecialID, pEnable)
 	local	vOutfit = Outfitter_GetSpecialOutfit(pSpecialID);
-	if vOutfit then
-	DEFAULT_CHAT_FRAME:AddMessage("pSpecialID"..tostring(pSpecialID))
-	DEFAULT_CHAT_FRAME:AddMessage("voutfit: "..tostring(vOutfit))
-	DEFAULT_CHAT_FRAME:AddMessage("voutfit disable: "..tostring(vOutfit.Disabled))
-	DEFAULT_CHAT_FRAME:AddMessage("penable: "..tostring(pEnable))
-	DEFAULT_CHAT_FRAME:AddMessage("voutfit bgdis: "..tostring(vOutfit.BGDisabled))
-	DEFAULT_CHAT_FRAME:AddMessage("inbgzone: "..tostring(Outfitter_InBattlegroundZone()))
-	DEFAULT_CHAT_FRAME:AddMessage("voutfit instdis: "..tostring(vOutfit.InstDisabled))
-	DEFAULT_CHAT_FRAME:AddMessage("ininst: "..tostring(Outfitter_InInstanceZone()))
-	end
+
 	if not vOutfit
 	or vOutfit.Disabled
 	or (pEnable and vOutfit.BGDisabled and Outfitter_InBattlegroundZone())
 	or (pEnable and vOutfit.InstDisabled and Outfitter_InInstanceZone()) then
 		return;
 	end
-	DEFAULT_CHAT_FRAME:AddMessage("no return")
+
 	if pEnable then
 		-- Start monitoring health and mana if it's the dining outfit
 		
