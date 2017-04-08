@@ -77,6 +77,11 @@ Outfitter_cOrgrimmar = "Orgrimmar";
 Outfitter_cThunderBluff = "Thunder Bluff";
 Outfitter_cUndercity = "Undercity";
 
+--Instances
+Outfitter_cAQ20 = "Ruins of Ahn'Qiraj";
+Outfitter_cAQ40 = "Ahn'Qiraj";
+Outfitter_cZG = "Zul'Gurub";
+
 Outfitter_cFishingPole = "Fishing Pole";
 Outfitter_cStrongFishingPole = "Strong Fishing Pole";
 Outfitter_cBigIronFishingPole = "Big Iron Fishing Pole";
@@ -255,6 +260,7 @@ BINDING_NAME_OUTFITTER_OUTFIT10 = "Outfit 10";
 
 Outfitter_cDisableOutfit = "Disable Outfit";
 Outfitter_cDisableOutfitInBG = "Disable Outfit When in Battlegrounds";
+Outfitter_cDisableOutfitInInstance = "Disable Outfit When in Instances";
 Outfitter_cDisabledOutfitName = "%s (Disabled)";
 
 Outfitter_cMinimapButtonTitle = "Outfitter Minimap Button";

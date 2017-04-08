@@ -383,6 +383,7 @@ local Outfitter_cZoneSpecialIDs =
 	"AV",
 	"AB",
 	"WSG",
+	"Instance",
 };
 
 local Outfitter_cZoneSpecialIDMap =
@@ -402,6 +403,9 @@ local Outfitter_cZoneSpecialIDMap =
 	[Outfitter_cOrgrimmar] = {"City"},
 	[Outfitter_cThunderBluff] = {"City"},
 	[Outfitter_cUndercity] = {"City"},
+	[Outfitter_cAQ20] = {"Instance"},
+	[Outfitter_cAQ40] = {"Instance"},
+	[Outfitter_cZG] = {"Instance"},
 };
 
 local gOutfitter_StatDistribution =
@@ -1186,6 +1190,8 @@ function OutfitterItemDropDown_Initialize()
 		if vIsSpecialOutfit then
 			Outfitter_AddMenuItem(vFrame, Outfitter_cDisableOutfit, "DISABLE", vOutfit.Disabled);
 			Outfitter_AddMenuItem(vFrame, Outfitter_cDisableOutfitInBG, "BGDISABLE", vOutfit.BGDisabled);
+			--hax
+			Outfitter_AddMenuItem(vFrame, Outfitter_cDisableOutfitInInstance, "INSTDISABLE", vOutfit.InstDisabled);
 		else
 			Outfitter_AddMenuItem(vFrame, PET_RENAME, "RENAME");
 		end
@@ -3850,13 +3856,23 @@ end
 
 function Outfitter_SetSpecialOutfitEnabled(pSpecialID, pEnable)
 	local	vOutfit = Outfitter_GetSpecialOutfit(pSpecialID);
-	
+	if vOutfit then
+	DEFAULT_CHAT_FRAME:AddMessage("pSpecialID"..tostring(pSpecialID))
+	DEFAULT_CHAT_FRAME:AddMessage("voutfit: "..tostring(vOutfit))
+	DEFAULT_CHAT_FRAME:AddMessage("voutfit disable: "..tostring(vOutfit.Disabled))
+	DEFAULT_CHAT_FRAME:AddMessage("penable: "..tostring(pEnable))
+	DEFAULT_CHAT_FRAME:AddMessage("voutfit bgdis: "..tostring(vOutfit.BGDisabled))
+	DEFAULT_CHAT_FRAME:AddMessage("inbgzone: "..tostring(Outfitter_InBattlegroundZone()))
+	DEFAULT_CHAT_FRAME:AddMessage("voutfit instdis: "..tostring(vOutfit.InstDisabled))
+	DEFAULT_CHAT_FRAME:AddMessage("ininst: "..tostring(Outfitter_InInstanceZone()))
+	end
 	if not vOutfit
 	or vOutfit.Disabled
-	or (pEnable and vOutfit.BGDisabled and Outfitter_InBattlegroundZone()) then
+	or (pEnable and vOutfit.BGDisabled and Outfitter_InBattlegroundZone())
+	or (pEnable and vOutfit.InstDisabled and Outfitter_InInstanceZone()) then
 		return;
 	end
-	
+	DEFAULT_CHAT_FRAME:AddMessage("no return")
 	if pEnable then
 		-- Start monitoring health and mana if it's the dining outfit
 		
@@ -3941,6 +3957,12 @@ function Outfitter_InBattlegroundZone()
 	local	vZoneSpecialIDMap = Outfitter_cZoneSpecialIDMap[gOutfitter_CurrentZone];
 	
 	return vZoneSpecialIDMap and vZoneSpecialIDMap[1] == "Battleground";
+end
+
+function Outfitter_InInstanceZone()
+	local	vZoneSpecialIDMap = Outfitter_cZoneSpecialIDMap[gOutfitter_CurrentZone];
+	
+	return vZoneSpecialIDMap and vZoneSpecialIDMap[1] == "Instance";
 end
 
 function Outfitter_SetAllSlotEnables(pEnable)
@@ -4641,6 +4663,13 @@ function Outfitter_OutfitItemSelected(pMenu, pValue)
 			vOutfit.BGDisabled = true;
 		end
 		gOutfitter_DisplayIsDirty = true;
+	elseif pValue == "INSTDISABLE" then
+		if vOutfit.InstDisabled then
+			vOutfit.InstDisabled = nil;
+		else
+			vOutfit.InstDisabled = true;
+		end
+		gOutfitter_DisplayIsDirty = true;
 	elseif pValue == "ACCESSORY" then
 		vOutfit.IsAccessory = true;
 		Outfitter_UpdateOutfitCategory(vOutfit);
@@ -5041,6 +5070,7 @@ function Outfitter_CheckDatabase()
 		
 		if vRidingOutfit then
 			vRidingOutfit.BGDisabled = true;
+			vRidingOutfit.InstDisabled = true;
 		end
 		
 		gOutfitter_Settings.Version = 4;
