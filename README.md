@@ -1,4 +1,4 @@
 # Outfitter
-Addes an option to the riding outfit - Disable when in Instace (AQ20, AQ40, ZG20)
+Added an option to the special (riding) outfits - Disable when in instance (AQ20, AQ40, ZG20)
 
 ![Outfitter](https://i.imgur.com/iAixuvG.png)
